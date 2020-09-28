@@ -14,6 +14,8 @@ namespace WindowsFormsApp4
     {
         double x, y, z;
         string op;
+        Boolean flag;
+
 
         public Form1()
         {
@@ -32,16 +34,16 @@ namespace WindowsFormsApp4
 
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void operators(object sender, EventArgs e)
-        {
+        { if(op!=null)
+            {
+                equal(null,null);
+            }
             x =Convert.ToDouble(textBox1.Text);
             op = ((Button)sender).Text;
-            textBox1.Text = "";
+            flag = true;
+          
+            
         }
 
         private void equal(object sender, EventArgs e)
@@ -55,6 +57,7 @@ namespace WindowsFormsApp4
                 case "-":
                     z = x - y;
                     break;
+                
                 case "÷":
                     z = x / y;
                     break;
@@ -63,6 +66,7 @@ namespace WindowsFormsApp4
                     break;
             }
             textBox1.Text = z.ToString();
+            op = null;
         }
 
         private void backspace(object sender, EventArgs e)
@@ -74,9 +78,29 @@ namespace WindowsFormsApp4
             
         }
 
+        private void button20_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
+           
+        }
+
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           Button temp = new Button();
+            temp.Text = e.KeyChar.ToString();
+            if (e.KeyChar >= '0' && e.KeyChar <= '9')
+                button4_Click(temp, null);
+            else if (e.KeyChar == '+' || e.KeyChar == '-' || e.KeyChar == '*' || e.KeyChar == '/')
+                operators(temp, null);
+            else if (e.KeyChar == '=')
+                equal(null, null);
+            
+
+        }
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if(textBox1.Text.Contains("/"))
+            if(textBox1.Text.Contains("."))
             {
                 button16.Enabled = false;
             }
@@ -86,7 +110,14 @@ namespace WindowsFormsApp4
 
         private void button4_Click(object sender, EventArgs e)
         {
+            if (flag == true)
+            { 
+                textBox1.Text = "";
+                flag = false;
+            }
+               
             textBox1.Text += ((Button)sender).Text;
+            
         }
     }
 }
